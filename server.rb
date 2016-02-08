@@ -10,18 +10,13 @@ set :bind, '0.0.0.0'
 set :haml, :format => :html5
 
 onsen = Onsen.new
+
 get('/') do
+    @data = onsen.get_program_list
     haml :index
 end
-#    program = onsen.get_program_list[:result]
-#    programs.each do |program|
-#	puts program
-#    end
-#
-class Stream
-    def each
-	200.times { |i| yield "#{i}\n" }
-    end
-end
 
-get('/hoge') { Stream.new }
+get('/program/:name') do
+    @data = onsen.get_program_info "#{params['name']}"
+    haml :program
+end
